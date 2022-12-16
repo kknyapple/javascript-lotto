@@ -2,6 +2,7 @@ const MissionUtils = require("@woowacourse/mission-utils");
 
 const InputView = require("./InputView");
 const OutputView = require("./OutputView");
+const UserLotto = require("./UserLottos");
 const { ERROR } = require("./constant");
 
 class GameController {
@@ -28,8 +29,18 @@ class GameController {
 
   purchase(money) {
     this.validate(money);
+    OutputView.printTheNumberOfLottos(money);
 
-    OutputView.printLottos(money);
+    this.makeLottos(money);
+  }
+
+  makeLottos(money) {
+    const lottos = new UserLotto();
+
+    lottos.setLottos(money / 1000);
+    lottos.getLottos().forEach((lotto) => {
+      OutputView.printLottos(lotto);
+    });
   }
 
   game() {
