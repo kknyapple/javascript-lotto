@@ -9,6 +9,7 @@ const { ERROR } = require("./constant");
 
 class GameController {
   constructor() {
+    this.money;
     this.lottos;
     this.winningLotto;
     this.bonusNumber;
@@ -34,10 +35,11 @@ class GameController {
   }
 
   purchase(money) {
+    this.money = money;
     this.validate(money);
     OutputView.printTheNumberOfLottos(money);
 
-    this.makeLottos(money);
+    this.makeLottos();
   }
 
   validateLottoNumber(number) {
@@ -78,6 +80,8 @@ class GameController {
     });
 
     console.log(this.lottos.getMatchingNumber());
+
+    OutputView.printResult(this.lottos, this.money);
   }
 
   receiveLottoNumber(numbers) {
@@ -98,11 +102,11 @@ class GameController {
     this.compare();
   }
 
-  makeLottos(money) {
+  makeLottos() {
     this.lottos = new UserLotto();
 
-    this.lottos.setLottos(money / 1000);
-    this.lottos.setMatchingNumber(money / 1000);
+    this.lottos.setLottos(this.money / 1000);
+    this.lottos.setMatchingNumber(this.money / 1000);
     this.lottos.getLottos().forEach((lotto) => {
       OutputView.printLottos(lotto);
     });
