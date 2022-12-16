@@ -9,6 +9,7 @@ const { ERROR } = require("./constant");
 
 class GameController {
   constructor() {
+    this.lottos;
     this.winningLotto;
     this.bonusNumber;
   }
@@ -48,6 +49,37 @@ class GameController {
     }
   }
 
+  compare() {
+    this.lottos.getLottos().forEach((lotto, index) => {
+      this.winningLotto.getNumbers().forEach((number) => {
+        lotto.getNumbers().includes(number) &&
+          this.lottos.matchingNumber[index]++;
+      });
+    });
+
+    this.lottos.getMatchingNumber().forEach((number, index) => {
+      if (number === 5) {
+        console.log(
+          this.lottos
+            .getLottos()
+            [index].getNumbers()
+            .includes(Number(this.bonusNumber))
+        );
+
+        if (
+          this.lottos
+            .getLottos()
+            [index].getNumbers()
+            .includes(Number(this.bonusNumber.getBonusNumber()))
+        ) {
+          this.lottos.matchingNumber[index] = "5+1";
+        }
+      }
+    });
+
+    console.log(this.lottos.getMatchingNumber());
+  }
+
   receiveLottoNumber(numbers) {
     this.winningLotto = new Lotto(numbers.split(",").map(Number));
     numbers.split(",").forEach((numbers) => {
@@ -63,13 +95,15 @@ class GameController {
     this.bonusNumber = new BonusNumber(number);
 
     // console.log(this.bonusNumber.getBonusNumber());
+    this.compare();
   }
 
   makeLottos(money) {
-    const lottos = new UserLotto();
+    this.lottos = new UserLotto();
 
-    lottos.setLottos(money / 1000);
-    lottos.getLottos().forEach((lotto) => {
+    this.lottos.setLottos(money / 1000);
+    this.lottos.setMatchingNumber(money / 1000);
+    this.lottos.getLottos().forEach((lotto) => {
       OutputView.printLottos(lotto);
     });
 

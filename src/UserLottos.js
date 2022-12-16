@@ -5,6 +5,7 @@ const UserLotto = require("./UserLotto");
 class UserLottos {
   constructor() {
     this.lottos = [];
+    this.matchingNumber = [];
   }
 
   generateNumber() {
@@ -22,6 +23,15 @@ class UserLottos {
   getLottos() {
     return this.lottos;
   }
-}
 
+  setMatchingNumber(theNumberOfLotto) {
+    for (let i = 0; i < theNumberOfLotto; i++) {
+      this.matchingNumber[i] = 0;
+    }
+  }
+
+  getMatchingNumber() {
+    return this.matchingNumber;
+  }
+}
 module.exports = UserLottos;
