@@ -3,6 +3,7 @@ const MissionUtils = require("@woowacourse/mission-utils");
 const InputView = require("./InputView");
 const OutputView = require("./OutputView");
 const UserLotto = require("./UserLottos");
+const Lotto = require("./Lotto");
 const { ERROR } = require("./constant");
 
 class GameController {
@@ -34,6 +35,28 @@ class GameController {
     this.makeLottos(money);
   }
 
+  validateLottoNumber(number) {
+    if (!this.isNumber(number)) {
+      throw new Error("[ERROR] 숫자 아님.");
+    }
+    if (!(number >= 1 && number <= 45)) {
+      throw new Error("[ERROR] 1-45");
+    }
+  }
+
+  receiveLottoNumber(numbers) {
+    const winningLotto = new Lotto(numbers.split(",").map(Number));
+    numbers.split(",").forEach((numbers) => {
+      this.validateLottoNumber(numbers);
+    });
+
+    console.log(winningLotto.getNumbers());
+
+    InputView.printEnterBonusNumber(this.receiveBonusNumber.bind(this));
+  }
+
+  receiveBonusNumber(number) {}
+
   makeLottos(money) {
     const lottos = new UserLotto();
 
@@ -41,6 +64,8 @@ class GameController {
     lottos.getLottos().forEach((lotto) => {
       OutputView.printLottos(lotto);
     });
+
+    InputView.printEnterLottoNumber(this.receiveLottoNumber.bind(this));
   }
 
   game() {

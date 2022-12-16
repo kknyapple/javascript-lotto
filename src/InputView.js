@@ -6,6 +6,21 @@ const InputView = {
       callback(money);
     });
   },
+
+  printEnterLottoNumber(callback) {
+    MissionUtils.Console.readLine("당첨 번호를 입력해 주세요.\n", (number) => {
+      callback(number);
+    });
+  },
+
+  printEnterBonusNumber(callback) {
+    MissionUtils.Console.readLine(
+      "보너스 번호를 입력해 주세요.\n",
+      (number) => {
+        callback(number);
+      }
+    );
+  },
 };
 
 module.exports = InputView;
