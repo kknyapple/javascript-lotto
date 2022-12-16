@@ -19,6 +19,10 @@ class Lotto {
     }
   }
 
+  setNumbers(numbers) {
+    this.#numbers = numbers.split(",").map(Number);
+  }
+
   getNumbers() {
     return this.#numbers;
   }

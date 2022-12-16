@@ -4,10 +4,14 @@ const InputView = require("./InputView");
 const OutputView = require("./OutputView");
 const UserLotto = require("./UserLottos");
 const Lotto = require("./Lotto");
+const BonusNumber = require("./BonusNumber");
 const { ERROR } = require("./constant");
 
 class GameController {
-  constructor(numbers) {}
+  constructor() {
+    this.winningLotto;
+    this.bonusNumber;
+  }
 
   isNumber(number) {
     return !isNaN(number);
@@ -45,17 +49,21 @@ class GameController {
   }
 
   receiveLottoNumber(numbers) {
-    const winningLotto = new Lotto(numbers.split(",").map(Number));
+    this.winningLotto = new Lotto(numbers.split(",").map(Number));
     numbers.split(",").forEach((numbers) => {
       this.validateLottoNumber(numbers);
     });
 
-    console.log(winningLotto.getNumbers());
+    // console.log(this.winningLotto.getNumbers());
 
     InputView.printEnterBonusNumber(this.receiveBonusNumber.bind(this));
   }
 
-  receiveBonusNumber(number) {}
+  receiveBonusNumber(number) {
+    this.bonusNumber = new BonusNumber(number);
+
+    // console.log(this.bonusNumber.getBonusNumber());
+  }
 
   makeLottos(money) {
     const lottos = new UserLotto();
